@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+#env setup
+env = environ.Env()
+environ.Env.read_env()
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +30,9 @@ SECRET_KEY = '2sittidj38&-_83=oe=wp1ox%&vi*-b2_y2&50h89*(gui1*q#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '1509-197-156-137-157.ngrok.io', 'localhost', '127.0.0.1'
+]
 
 
 # Application definition
@@ -40,9 +47,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'computed_property',
+    'corsheaders',
+    'django_daraja',
 
     'useraccount',
-    'loans'
+    'loans',
+    'cash_collateral',
+    'payments'
 ]
 
 REST_FRAMEWORK = {
@@ -61,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'sacco_system.urls'
@@ -132,3 +144,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CORS_ORIGIN_WHITELIST = [
+     'http://localhost:3000'
+]
+
+

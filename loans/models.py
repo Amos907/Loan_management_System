@@ -25,6 +25,8 @@ class LoanType(models.Model):
     interest_rate = models.IntegerField(default=0, null=True, blank=True)
     duration = models.IntegerField(
         default=0, null=True, blank=True)
+    min_collateral = models.IntegerField(default = 0,null = True,blank = True)
+
 
     # interest_type = models.CharField(
     #     max_length=200,
@@ -53,14 +55,14 @@ class LoanType(models.Model):
 
 
 class Loan(models.Model):
-    PERSONAL = 'Personal Loan'
-    SMALL = 'Small Business Loan'
-    MORTGAGE = 'Mortgage'
+    HUSTLE_YANGU = 'Hustle Yangu'
+    HUSTLE_YANGU_PLUS = 'Hustle Yangu Plus'
+    JIKUZE_LOAN = 'Jikuze Loan'
 
     LOAN_CHOICES = [
-        (PERSONAL, 'Personal Loan'),
-        (SMALL, 'Small Business Loan'),
-        (MORTGAGE, 'Mortgage'),
+        (HUSTLE_YANGU,'Hustle Yangu'),
+        (HUSTLE_YANGU_PLUS,'Hustle Yangu Plus'),
+        (JIKUZE_LOAN ,'Jikuze Loan')
 
     ]
 
@@ -70,7 +72,7 @@ class Loan(models.Model):
     loan_type = models.CharField(
         max_length=200,
         choices=LOAN_CHOICES,
-        default=PERSONAL
+        default=HUSTLE_YANGU
 
     )
 
@@ -95,12 +97,11 @@ class Loan(models.Model):
         return interest
 
     def calc_dueDate(self):
-        date_format = '%Y/%m/%d'
-        #dtObj = datetime.strptime(str(self.date_created), date_format)
+
         dur = int(self.get_duration())
 
         c_date = self.date_created.date()
-        new_date = c_date + timedelta(dur*31)
+        new_date = c_date + timedelta(dur*30)
         return new_date
 
     def amount_paid(self):
